@@ -6,6 +6,12 @@ import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 const isPagesExport = process.env.PAGES_EXPORT === "1";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
+// Cloudflare Image Resizing (the /cdn-cgi/image custom loader) only works on a
+// zone with the feature enabled — NOT on *.workers.dev. Default to unoptimized
+// images so they render everywhere; opt into the loader once on a custom domain
+// via NEXT_PUBLIC_CF_IMAGE_RESIZING=1. Assets are already web-sized.
+const useCfImageResizing = process.env.NEXT_PUBLIC_CF_IMAGE_RESIZING === "1";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   ...(isPagesExport
@@ -18,11 +24,9 @@ const nextConfig: NextConfig = {
         images: { unoptimized: true },
       }
     : {
-        images: {
-          // Route optimization through Cloudflare Image Resizing in production.
-          loader: "custom",
-          loaderFile: "./lib/cf-image-loader.ts",
-        },
+        images: useCfImageResizing
+          ? { loader: "custom", loaderFile: "./lib/cf-image-loader.ts" }
+          : { unoptimized: true },
       }),
 };
 
