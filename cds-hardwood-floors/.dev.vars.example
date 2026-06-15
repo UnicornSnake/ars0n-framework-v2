@@ -1,0 +1,11 @@
+# Local development secrets for `next dev` and `opennextjs-cloudflare preview`.
+# Copy to `.dev.vars` (gitignored) and fill in. In production these are set as
+# Worker secrets via `wrangler secret put <NAME>`.
+
+# Cloudflare Turnstile (managed mode) — server-side secret
+TURNSTILE_SECRET_KEY=
+
+# Resend transactional email
+RESEND_API_KEY=
+ESTIMATE_TO_EMAIL=estimates@cdshardwoodfloors.com
+ESTIMATE_FROM_EMAIL=CDS Hardwood Floors <onboarding@resend.dev>

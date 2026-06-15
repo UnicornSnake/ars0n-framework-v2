@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/*
+ * Brand theme (Tailwind v4, CSS-first config).
+ * Warm hardwood palette: cream paper, espresso ink, oak/amber accent.
+ */
+@theme {
+  --color-cream: #faf6ef;
+  --color-paper: #fffdf9;
+
+  --color-ink: #211810;
+  --color-ink-soft: #4a3c2f;
+
+  --color-wood-50: #f6ede0;
+  --color-wood-100: #ecd9bf;
+  --color-wood-200: #ddbb8d;
+  --color-wood-300: #c99a5c;
+  --color-wood-400: #b97f3a;
+  --color-wood-500: #a96c2a;
+  --color-wood-600: #8a5420;
+  --color-wood-700: #6b401a;
+  --color-wood-800: #4d2e15;
+  --color-wood-900: #2f1d0e;
+
+  --color-brand: #a96c2a;
+  --color-brand-dark: #6b401a;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+:root {
+  --background: var(--color-cream);
+  --foreground: var(--color-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Respect users who prefer reduced motion at the CSS layer too. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

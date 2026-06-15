@@ -1,0 +1,28 @@
+{
+  // Wrangler configuration for the OpenNext Cloudflare Workers deployment.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "cds-hardwood-floors",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-06-15",
+  // nodejs_compat is required by the OpenNext Cloudflare adapter.
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Serve the prerendered/static assets produced by the OpenNext build.
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+
+  // Cloudflare Images binding (used by next/image optimization on the edge).
+  "images": {
+    "binding": "IMAGES"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+
+  // Secrets are NOT stored here. Set them with `wrangler secret put <NAME>`:
+  //   TURNSTILE_SECRET_KEY, RESEND_API_KEY, ESTIMATE_TO_EMAIL, ESTIMATE_FROM_EMAIL
+  // Public vars (NEXT_PUBLIC_*) are inlined at build time via .env / CI.
+}
