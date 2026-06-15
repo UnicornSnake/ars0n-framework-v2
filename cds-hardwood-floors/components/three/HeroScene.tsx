@@ -17,6 +17,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { asset } from "@/lib/asset";
 
 const COLS = 6; // planks across (x)
 const ROWS = 12; // plank courses deep (z)
@@ -48,7 +49,7 @@ function Floor() {
 
   // Configure the texture in the loader callback (not by mutating the hook
   // return during render) so it tiles correctly and reads in sRGB.
-  const oak = useTexture("/textures/oak.jpg", (loaded) => {
+  const oak = useTexture(asset("/textures/oak.jpg"), (loaded) => {
     const tex = loaded as THREE.Texture;
     tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
     tex.anisotropy = 8;

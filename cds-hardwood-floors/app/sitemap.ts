@@ -3,6 +3,9 @@ import { SITE_URL } from "@/lib/site";
 import { serviceSlugs } from "@/lib/services";
 import { areaSlugs } from "@/lib/areas";
 
+// Fully static so it works under both Cloudflare and static-export builds.
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 

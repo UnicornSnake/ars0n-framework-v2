@@ -1,0 +1,75 @@
+name: Preview — CDS Hardwood Floors (GitHub Pages)
+
+# Builds the cds-hardwood-floors site as a static export and publishes it to
+# GitHub Pages so it can be viewed on any device. This is a VISUAL preview:
+# the contact form's API route is not included in a static export, so the form
+# won't send (the full Cloudflare Workers deploy handles that).
+
+on:
+  push:
+    branches: [claude/cds-hardwood-floors-site-1vu2mj]
+    paths:
+      - "cds-hardwood-floors/**"
+      - ".github/workflows/pages-cds.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-cds
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cds-hardwood-floors
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: cds-hardwood-floors/package-lock.json
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          # Auto-enable Pages with the Actions source so no manual toggle is needed.
+          enablement: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        env:
+          PAGES_EXPORT: "1"
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.origin }}${{ steps.pages.outputs.base_path }}
+        run: |
+          # The POST API route can't be part of a static export — drop it for the
+          # preview build only (this runner is disposable; the repo is untouched).
+          rm -rf app/api
+          npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: cds-hardwood-floors/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
