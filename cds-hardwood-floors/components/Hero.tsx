@@ -2,6 +2,7 @@ import Image from "next/image";
 import { site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui";
 import { PhoneIcon, ShieldIcon, StarIcon } from "@/components/icons";
+import { HeroCanvas } from "@/components/three/HeroCanvas";
 
 /**
  * Hero section. The LCP element is the STATIC poster image (master.jpg) — not a
@@ -11,15 +12,17 @@ import { PhoneIcon, ShieldIcon, StarIcon } from "@/components/icons";
 export function Hero() {
   return (
     <section className="relative isolate flex min-h-[88vh] items-center overflow-hidden">
-      {/* LCP poster image */}
+      {/* LCP poster image (always the LCP element; canvas mounts over it later) */}
       <Image
         src="/renders/master.jpg"
         alt="Freshly refinished oak hardwood floor in a bright living room"
         fill
         priority
         sizes="100vw"
-        className="-z-10 object-cover"
+        className="-z-30 object-cover"
       />
+      {/* Client-only WebGL island: planks assemble into a floor after first paint */}
+      <HeroCanvas />
       {/* Legibility scrim */}
       <div
         className="absolute inset-0 -z-10 bg-gradient-to-t from-wood-900/85 via-wood-900/45 to-wood-900/30"
@@ -27,7 +30,7 @@ export function Hero() {
       />
 
       <div className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8">
-        <div className="max-w-2xl">
+        <div id="hero-overlay" className="max-w-2xl">
           <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium text-wood-100">
             <span className="inline-flex items-center gap-1.5">
               <ShieldIcon className="h-4 w-4 text-brand" /> {site.mhicLicense}

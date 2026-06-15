@@ -5,6 +5,7 @@ import { site, SITE_URL } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { localBusinessJsonLd } from "@/lib/jsonld";
 
 const inter = Inter({
@@ -62,9 +63,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-cream text-ink">
         {/* Site-wide LocalBusiness structured data. */}
         <JsonLd data={localBusinessJsonLd()} />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SmoothScroll>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
