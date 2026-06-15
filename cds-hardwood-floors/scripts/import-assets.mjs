@@ -11,18 +11,19 @@ import sharp from "sharp";
 import { readdir, mkdir } from "node:fs/promises";
 import path from "node:path";
 
-// jobId -> { out, width, [height] }. Renders are width-bounded; textures square.
-const MAP = {
-  // Renders (room photos, 16:9 source ~5504x3072)
-  e10aad42: { out: "public/renders/master.jpg", width: 1920 }, // hero poster (LCP)
-  "3602b1d0": { out: "public/renders/before.jpg", width: 1600 }, // worn
-  "9491d559": { out: "public/renders/after.jpg", width: 1600 }, // refinished
-  // Textures (top-down squares, 4096x4096) — kept square for tiling
-  c350cc7b: { out: "public/textures/oak.jpg", width: 2048, height: 2048 },
-  "0bda3fa5": { out: "public/textures/maple.jpg", width: 2048, height: 2048 },
-  "69c03662": { out: "public/textures/walnut.jpg", width: 2048, height: 2048 },
-  "449cc30c": { out: "public/textures/hickory.jpg", width: 2048, height: 2048 },
-};
+// Each target lists candidate job-IDs (first match wins) so equivalent render
+// variants can stand in. Renders are width-bounded; textures kept square.
+const MAP = [
+  // Renders (same living room: worn -> refinished, 16:9 source ~5504x3072)
+  { ids: ["b3d7105a", "e10aad42", "9491d559"], out: "public/renders/master.jpg", width: 1920 }, // hero (LCP)
+  { ids: ["34cbdca1", "3602b1d0"], out: "public/renders/before.jpg", width: 1600 }, // worn
+  { ids: ["9491d559"], out: "public/renders/after.jpg", width: 1600 }, // refinished
+  // Textures (top-down squares, 4096x4096)
+  { ids: ["c350cc7b"], out: "public/textures/oak.jpg", width: 2048, height: 2048 },
+  { ids: ["0bda3fa5"], out: "public/textures/maple.jpg", width: 2048, height: 2048 },
+  { ids: ["69c03662"], out: "public/textures/walnut.jpg", width: 2048, height: 2048 },
+  { ids: ["449cc30c"], out: "public/textures/hickory.jpg", width: 2048, height: 2048 },
+];
 
 const srcDir = process.argv[2];
 if (!srcDir) {
@@ -35,27 +36,39 @@ await mkdir("public/textures", { recursive: true });
 
 const files = await readdir(srcDir);
 let done = 0;
+const missing = [];
 
-for (const [jobId, target] of Object.entries(MAP)) {
-  const match = files.find((f) => f.includes(jobId));
-  if (!match) continue;
+for (const target of MAP) {
+  // First candidate job-ID with a matching file on disk wins.
+  let match;
+  let matchedId;
+  for (const id of target.ids) {
+    match = files.find((f) => f.includes(id));
+    if (match) {
+      matchedId = id;
+      break;
+    }
+  }
+  if (!match) {
+    missing.push(target.out);
+    continue;
+  }
 
   const input = path.join(srcDir, match);
-  const pipeline = sharp(input).resize({
-    width: target.width,
-    height: target.height,
-    fit: target.height ? "cover" : "inside",
-    withoutEnlargement: true,
-  });
-  await pipeline.jpeg({ quality: 82, mozjpeg: true }).toFile(target.out);
+  await sharp(input)
+    .resize({
+      width: target.width,
+      height: target.height,
+      fit: target.height ? "cover" : "inside",
+      withoutEnlargement: true,
+    })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(target.out);
 
   const meta = await sharp(target.out).metadata();
-  console.log(`✓ ${jobId} -> ${target.out} (${meta.width}x${meta.height})`);
+  console.log(`✓ ${matchedId} -> ${target.out} (${meta.width}x${meta.height})`);
   done++;
 }
 
-console.log(`\nImported ${done}/${Object.keys(MAP).length} assets.`);
-const missing = Object.entries(MAP)
-  .filter(([id]) => !files.some((f) => f.includes(id)))
-  .map(([, t]) => t.out);
+console.log(`\nImported ${done}/${MAP.length} assets.`);
 if (missing.length) console.log("Still needed:", missing.join(", "));
