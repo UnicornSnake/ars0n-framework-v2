@@ -1,2 +1,2 @@
 :HL["/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/35b5v9tx4p59u.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"BMY5jQAbMobXP-nok8yQD"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"fguVbgQJ3A70Z3q869u8L"}

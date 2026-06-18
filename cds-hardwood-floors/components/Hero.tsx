@@ -2,17 +2,17 @@ import Image from "next/image";
 import { site } from "@/lib/site";
 import { ButtonLink } from "@/components/ui";
 import { PhoneIcon, ShieldIcon, StarIcon } from "@/components/icons";
-import { HeroCanvas } from "@/components/three/HeroCanvas";
 
 /**
- * Hero section. The LCP element is the STATIC poster image (master.jpg) — not a
- * canvas — so it paints immediately and is fully crawlable. In a later phase a
- * client-only WebGL island mounts on top of this same frame after first paint.
+ * Hero section. The LCP element is the static poster image (master.jpg) — a
+ * plain photo, so it paints immediately, is fully crawlable, and adds no
+ * client-side blocking time. (The experimental WebGL hero was removed; the
+ * island components remain parked in components/three for a future revisit.)
  */
 export function Hero() {
   return (
     <section className="relative isolate flex min-h-[88vh] items-center overflow-hidden">
-      {/* LCP poster image (always the LCP element; canvas mounts over it later) */}
+      {/* LCP poster image */}
       <Image
         src="/renders/master.jpg"
         alt="Freshly refinished oak hardwood floor in a bright living room"
@@ -21,8 +21,6 @@ export function Hero() {
         sizes="100vw"
         className="-z-30 object-cover"
       />
-      {/* Client-only WebGL island: planks assemble into a floor after first paint */}
-      <HeroCanvas />
       {/* Legibility scrim */}
       <div
         className="absolute inset-0 -z-10 bg-gradient-to-t from-wood-900/85 via-wood-900/45 to-wood-900/30"

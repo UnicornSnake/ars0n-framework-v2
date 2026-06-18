@@ -44,6 +44,30 @@ export const metadata: Metadata = {
   authors: [{ name: site.name }],
   creator: site.name,
   alternates: { canonical: "/" },
+  // Site-wide Open Graph + Twitter defaults so every page produces a rich link
+  // preview. Pages can override these; the share image is a real after photo.
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: site.name,
+    title: `${site.name} | ${site.tagline}`,
+    description: site.description,
+    locale: "en_US",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Refinished hardwood floor by CDS Hardwood Floors",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | ${site.tagline}`,
+    description: site.description,
+    images: ["/og.jpg"],
+  },
   robots: {
     index: true,
     follow: true,
