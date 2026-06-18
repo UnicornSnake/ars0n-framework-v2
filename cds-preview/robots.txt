@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://raw.githack.com/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview
+Sitemap: https://raw.githack.com/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/sitemap.xml

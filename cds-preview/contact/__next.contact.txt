@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[39756,["/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/1yqgyf2oi8rc9.js","/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/1hwk66xzoqqg-.js","/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
+3:I[37457,["/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/1yqgyf2oi8rc9.js","/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/1hwk66xzoqqg-.js","/UnicornSnake/ars0n-framework-v2/claude/cds-hardwood-floors-site-1vu2mj/cds-preview/_next/static/chunks/14mrh2-p_w84d.js"],"default"]
+4:[]
+0:{"rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"isPartial":false,"staleTime":300,"varyParams":"$W4","buildId":"BMY5jQAbMobXP-nok8yQD"}
